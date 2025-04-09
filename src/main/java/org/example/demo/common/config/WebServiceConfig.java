@@ -1,5 +1,6 @@
 package org.example.demo.common.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +9,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
+import org.springframework.ws.transport.http.WsdlDefinitionHandlerAdapter;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
@@ -40,6 +42,17 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		wsdl11Definition.setSoapActions(props);
 
 		return wsdl11Definition;
+	}
+
+	@Bean
+	public WsdlDefinitionHandlerAdapter wsdlDefinitionHandlerAdapter() {
+		return new WsdlDefinitionHandlerAdapter() {
+			@Override
+			protected String transformLocation(String location, HttpServletRequest request) {
+				String result = super.transformLocation(location, request);
+				return result.replace(":443", "").replace(":80","");
+			}
+		};
 	}
 
 	@Bean
