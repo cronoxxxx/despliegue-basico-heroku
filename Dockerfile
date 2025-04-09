@@ -26,4 +26,4 @@ COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8080
 
 # Command to run the application
-ENTRYPOINT ["java", "-jar", "-Dserver.use-forward-headers=true", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
