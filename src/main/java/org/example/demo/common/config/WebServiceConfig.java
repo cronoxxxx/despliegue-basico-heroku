@@ -14,6 +14,8 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
 
 
@@ -44,16 +46,22 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		return wsdl11Definition;
 	}
 
-//	@Bean
-//	public WsdlDefinitionHandlerAdapter wsdlDefinitionHandlerAdapter() {
-//		return new WsdlDefinitionHandlerAdapter() {
-//			@Override
-//			protected String transformLocation(String location, HttpServletRequest request) {
-//				String result = super.transformLocation(location, request);
-//				return result.replace(":443", "").replace(":80","");
-//			}
-//		};
-//	}
+	//deploy con SOAP
+	@Bean
+	public WsdlDefinitionHandlerAdapter wsdlDefinitionHandlerAdapter() {
+		return new WsdlDefinitionHandlerAdapter() {
+			@Override
+			protected String transformLocation(String location, HttpServletRequest request) {
+				try {
+					URI uri = new URI(location);
+					return new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), -1, uri.getPath(), uri.getQuery(),
+							uri.getFragment()).toString();
+				} catch (URISyntaxException e) {
+					return location;
+				}
+			}
+		};
+	}
 
 	@Bean
 	public XsdSchema studentsSchema() {
