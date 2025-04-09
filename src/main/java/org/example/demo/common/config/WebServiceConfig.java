@@ -35,6 +35,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		wsdl11Definition.setTargetNamespace("http://www.example.org/demo/");
 		wsdl11Definition.setSchema(studentsSchema);
 		Properties props = new Properties();
+		props.setProperty("soap:address", "https://despliegue-basico-heroku-production.up.railway.app/ws/services/mystudent");
 		props.put("getStudent", "http://www.example.org/demo/getStudentRequest");
 		props.put("findCountry", "http://www.example.org/demo/findCountryRequest");
 		wsdl11Definition.setSoapActions(props);
