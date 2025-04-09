@@ -44,16 +44,16 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		return wsdl11Definition;
 	}
 
-	@Bean
-	public WsdlDefinitionHandlerAdapter wsdlDefinitionHandlerAdapter() {
-		return new WsdlDefinitionHandlerAdapter() {
-			@Override
-			protected String transformLocation(String location, HttpServletRequest request) {
-				String result = super.transformLocation(location, request);
-				return result.replace(":443", "").replace(":80","");
-			}
-		};
-	}
+//	@Bean
+//	public WsdlDefinitionHandlerAdapter wsdlDefinitionHandlerAdapter() {
+//		return new WsdlDefinitionHandlerAdapter() {
+//			@Override
+//			protected String transformLocation(String location, HttpServletRequest request) {
+//				String result = super.transformLocation(location, request);
+//				return result.replace(":443", "").replace(":80","");
+//			}
+//		};
+//	}
 
 	@Bean
 	public XsdSchema studentsSchema() {
