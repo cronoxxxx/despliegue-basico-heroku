@@ -52,13 +52,8 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		return new WsdlDefinitionHandlerAdapter() {
 			@Override
 			protected String transformLocation(String location, HttpServletRequest request) {
-				try {
-					URI uri = new URI(location);
-					return new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), -1, uri.getPath(), uri.getQuery(),
-							uri.getFragment()).toString();
-				} catch (URISyntaxException e) {
-					return location;
-				}
+				String result = super.transformLocation(location, request);
+				return result.replaceAll(":(80|443)(?=/|$)", "");
 			}
 		};
 	}
