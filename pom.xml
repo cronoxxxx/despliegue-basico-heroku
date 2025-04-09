@@ -15,6 +15,7 @@
     <description>SoapProgram</description>
     <properties>
         <java.version>21</java.version>
+        <lombok.version>1.18.30</lombok.version> <!-- Define Lombok version -->
     </properties>
     <dependencies>
         <dependency>
@@ -25,6 +26,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version> <!-- Specify version explicitly -->
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -70,6 +72,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version> <!-- Add version here -->
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -89,7 +92,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
-                <version>2.5.0</version>  <!-- Updated to a newer version -->
+                <version>2.5.0</version>
                 <executions>
                     <execution>
                         <id>xjc</id>
