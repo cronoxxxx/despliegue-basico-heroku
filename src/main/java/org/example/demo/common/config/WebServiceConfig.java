@@ -1,6 +1,7 @@
 package org.example.demo.common.config;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.demo.common.Constantes;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -53,7 +54,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 			@Override
 			protected String transformLocation(String location, HttpServletRequest request) {
 				String result = super.transformLocation(location, request);
-				return result.replaceAll(":(80|443)(?=/|$)", "");
+				return result.replaceAll(Constantes.HANDLER_ADAPTER, "");
 			}
 		};
 	}
