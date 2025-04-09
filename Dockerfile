@@ -1,33 +1,29 @@
 # Stage 1: Build the application
-# Stage 1: Build the application
-FROM eclipse-temurin:21-jdk-jammy AS builder
+FROM eclipse-temurin:23-jdk AS builder
 
+# Set the working directory
 WORKDIR /app
 
-# Copy only the necessary files for build to leverage Docker cache
-COPY pom.xml .
-COPY src src
-COPY mvnw .
-COPY .mvn .mvn
+# Copy the application code
+COPY . .
 
-# Make mvnw executable and build
-RUN chmod +x mvnw && \
-    ./mvnw clean package -DskipTests
+# Given permissions to mvnw
+RUN chmod +x mvnw
+
+# Build the application (requires Maven or Gradle)
+RUN ./mvnw clean package -DskipTests
 
 # Stage 2: Run the application
-FROM eclipse-temurin:21-jre-jammy
+FROM eclipse-temurin:23-jre
 
+# Set the working directory
 WORKDIR /app
 
-# Copy the built JAR (using the exact name is better than wildcard)
+# Copy the JAR file from the builder stage
 COPY --from=builder /app/target/*.jar app.jar
 
-# Best practice: Run as non-root user
-RUN useradd -m myuser && \
-    chown -R myuser:myuser /app
-USER myuser
-
+# Expose the port the app will run on
 EXPOSE 8080
 
-# Better to use CMD unless you specifically need ENTRYPOINT
-CMD ["java", "-jar", "app.jar"]
+# Command to run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
